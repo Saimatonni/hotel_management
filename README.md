@@ -19,7 +19,7 @@ This platform allows hotel owners to manage properties and share.
 
 ### **1️⃣ Clone the Repository**
 ```sh
-git clone https://github.com/your-repo/hotel-management.git
+git clone https://github.com/Saimatonni/hotel_management.git
 cd hotel-management
 ```
 
