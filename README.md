@@ -3,7 +3,7 @@
 A full-featured **Hotel Management System** built with **Next.js, Prisma, MySQL, and Tailwind CSS**.  
 This platform allows hotel owners to manage properties and share.  
 
-🔗 **Live Demo:** [Click Here](https://your-demo-link.com)  
+🔗 **Live Demo:** [Click Here](https://drive.google.com/file/d/1V754yrKHaMiqD184cYpoeKcB4J9A4A74/view?usp=drive_link)  
 
 ---
 
