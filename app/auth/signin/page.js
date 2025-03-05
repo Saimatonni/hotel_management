@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Modal from "@/app/components/modal";
@@ -8,6 +8,14 @@ import { motion } from "framer-motion";
 import { FaGoogle, FaEye, FaEyeSlash, FaEnvelope, FaLock } from "react-icons/fa";
 
 export default function SignInPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SignInComponent />
+    </Suspense>
+  );
+}
+
+function SignInComponent() {
   const searchParams = useSearchParams();
   const isModal = searchParams.get("modal") === "true";
   const [email, setEmail] = useState("");
@@ -26,7 +34,7 @@ export default function SignInPage() {
       redirect: false,
     });
 
-    if (result.error) {
+    if (result?.error) {
       setError(result.error);
     } else {
       router.push("/dashboard");
@@ -94,7 +102,7 @@ export default function SignInPage() {
 
         {/* Register Link */}
         <p className="mt-6 text-center text-gray-700">
-          Don't have an account?{" "}
+         Don&apos;t have an account?{" "}
           <button
             onClick={() => router.push("/auth/register?modal=true")}
             className="text-blue-500 hover:underline"

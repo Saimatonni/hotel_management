@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { FaPlusCircle, FaEdit, FaTrash, FaStar } from "react-icons/fa";
 import Swal from "sweetalert2";
+import Image from "next/image";
 
 export default function ManageHotels() {
   const { data: session } = useSession();
@@ -107,7 +108,10 @@ export default function ManageHotels() {
       {error && <p className="text-red-500">{error}</p>}
 
       {hotels.length === 0 && !loading ? (
-        <p className="text-gray-500">No properties found. Click "Create Property" to add a new hotel.</p>
+       <p className="text-gray-500">
+       No properties found. Click &quot;Create Property&quot; to add a new hotel.
+     </p>
+     
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Modal from "@/app/components/modal";
@@ -8,8 +8,17 @@ import { motion } from "framer-motion";
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <RegisterComponent />
+    </Suspense>
+  );
+}
+
+function RegisterComponent() {
   const searchParams = useSearchParams();
   const isModal = searchParams.get("modal") === "true";
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -54,7 +63,9 @@ export default function RegisterPage() {
       className="flex flex-col items-center justify-center min-h-screen w-full"
     >
       <div className="bg-white/90 backdrop-blur-lg shadow-2xl rounded-2xl p-8 w-full max-w-md border border-gray-200">
-        <h1 className="text-4xl font-bold text-gray-900 mb-6 text-center">Create an Account 🎉</h1>
+        <h1 className="text-4xl font-bold text-gray-900 mb-6 text-center">
+          Create an Account 🎉
+        </h1>
 
         {error && <p className="text-red-500 text-center">{error}</p>}
 
@@ -83,6 +94,7 @@ export default function RegisterPage() {
             />
           </div>
 
+          {/* Password Input */}
           <div className="relative">
             <FaLock className="absolute left-3 top-3.5 text-gray-400" />
             <input
