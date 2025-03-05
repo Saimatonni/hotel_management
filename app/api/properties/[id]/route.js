@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 
 export async function DELETE(req, context) {
   try {
-    const { params } = context;
+    const { params } = await context;
     const id = params?.id;
 
     if (!id) {
@@ -28,7 +28,7 @@ export async function DELETE(req, context) {
 
 export async function PUT(req, context) {
     try {
-      const { params } = context;
+      const { params } = await context;
       const id = params?.id;
   
       if (!id) {

@@ -34,6 +34,7 @@ export const authOptions = {
       },
       async authorize(credentials) {
         const { email, password } = credentials;
+
         const user = await prisma.user.findUnique({
           where: { email },
         });
@@ -41,6 +42,7 @@ export const authOptions = {
         if (!user) {
           throw new Error("User not found");
         }
+
         const isValidPassword = await bcrypt.compare(password, user.password);
         if (!isValidPassword) {
           throw new Error("Invalid credentials");
@@ -61,13 +63,38 @@ export const authOptions = {
         if (account?.provider === "google") {
           token.accessToken = account.access_token;
           token.refreshToken = account.refresh_token;
+
+          // Check if user exists
+          let existingUser = await prisma.user.findUnique({
+            where: { email: user.email },
+            include: { socialLogin: true },
+          });
+
+          if (!existingUser) {
+            // Create user if not exists
+            existingUser = await prisma.user.create({
+              data: {
+                name: user.name,
+                email: user.email,
+                image: user.image,
+                socialLogin: {
+                  create: {
+                    provider: "google",
+                    providerId: user.id,
+                  },
+                },
+              },
+            });
+          }
+
+          token.id = existingUser.id;
         }
 
         if (account?.provider === "credentials") {
           token.accessToken = jwt.sign(
             { id: user.id, email: user.email },
-            process.env.JWT_SECRET, 
-            { expiresIn: "3h" } 
+            process.env.JWT_SECRET,
+            { expiresIn: "3h" }
           );
         }
       }
@@ -88,7 +115,7 @@ export const authOptions = {
     },
   },
   pages: {
-    signIn: "/auth/signin", 
+    signIn: "/auth/signin",
   },
 };
 
